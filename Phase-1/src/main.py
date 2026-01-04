@@ -104,9 +104,9 @@ def handle_add_task(manager: TodoManager) -> None:
     
     try:
         task = manager.add_task(title, description)
-        print(f"\n✓ Task added successfully! (ID: {task.id})")
+        print(f"\n+ Task added successfully! (ID: {task.id})")
     except ValueError as e:
-        print(f"\n✗ Error: {e}")
+        print(f"\n- Error: {e}")
 
 
 def handle_view_tasks(manager: TodoManager) -> None:
@@ -148,10 +148,10 @@ def handle_update_task(manager: TodoManager) -> None:
             return
         
         task = manager.update_task(task_id, title, description)
-        print(f"\n✓ Task {task.id} updated successfully!")
+        print(f"\n+ Task {task.id} updated successfully!")
         
     except ValueError as e:
-        print(f"\n✗ Error: {e}")
+        print(f"\n- Error: {e}")
 
 
 def handle_delete_task(manager: TodoManager) -> None:
@@ -168,10 +168,10 @@ def handle_delete_task(manager: TodoManager) -> None:
         task_id = int(task_id_str)
         
         manager.delete_task(task_id)
-        print(f"\n✓ Task {task_id} deleted successfully!")
+        print(f"\n+ Task {task_id} deleted successfully!")
         
     except ValueError as e:
-        print(f"\n✗ Error: {e}")
+        print(f"\n- Error: {e}")
 
 
 def handle_mark_complete(manager: TodoManager) -> None:
@@ -188,10 +188,10 @@ def handle_mark_complete(manager: TodoManager) -> None:
         task_id = int(task_id_str)
         
         manager.mark_task_complete(task_id)
-        print(f"\n✓ Task {task_id} marked as complete!")
+        print(f"\n+ Task {task_id} marked as complete!")
         
     except ValueError as e:
-        print(f"\n✗ Error: {e}")
+        print(f"\n- Error: {e}")
 
 
 def handle_mark_incomplete(manager: TodoManager) -> None:
@@ -208,10 +208,10 @@ def handle_mark_incomplete(manager: TodoManager) -> None:
         task_id = int(task_id_str)
         
         manager.mark_task_incomplete(task_id)
-        print(f"\n✓ Task {task_id} marked as incomplete!")
+        print(f"\n+ Task {task_id} marked as incomplete!")
         
     except ValueError as e:
-        print(f"\n✗ Error: {e}")
+        print(f"\n- Error: {e}")
 
 
 def main() -> None:
@@ -227,7 +227,7 @@ def main() -> None:
     """
     manager = TodoManager()
     
-    print("\n🎯 Welcome to the Todo Application!")
+    print("\nWelcome to the Todo Application!")
     print("Manage your tasks efficiently from the command line.\n")
     
     while True:
@@ -247,10 +247,10 @@ def main() -> None:
         elif choice == "6":
             handle_mark_incomplete(manager)
         elif choice == "7":
-            print("\n👋 Goodbye! Your tasks will not be saved.\n")
+            print("\nGoodbye! Your tasks will not be saved.\n")
             break
         else:
-            print("\n✗ Invalid choice. Please enter a number between 1 and 7.\n")
+            print("\n- Invalid choice. Please enter a number between 1 and 7.\n")
 
 
 if __name__ == "__main__":

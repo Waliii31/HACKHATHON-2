@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(py src/main.py)",
+      "Bash(chcp 65001)",
+      "Bash(python -c \"import sys; print\\(sys.stdout.encoding\\); exec\\(open\\(''src/main.py'', encoding=''utf-8''\\).read\\(\\)\\)\")",
+      "Bash(timeout 10s py src/main.py)",
+      "Bash(py demo_todo.py)",
+      "Bash(timeout 5s py src/main.py)",
+      "Bash(python -c \"\nimport sys\nimport os\nsys.path.insert\\(0, os.path.dirname\\(os.path.abspath\\(__file__\\)\\)\\)\nfrom src.main import main\nfrom src.manager import TodoManager\n\n# Create a fresh manager for testing\nmanager = TodoManager\\(\\)\n\n# Add first task\ntask1 = manager.add_task\\(''Buy groceries'', ''Buy vegetables and fruits''\\)\nprint\\(''1. Add Task''\\)\nprint\\(''Title: Buy groceries''\\)\nprint\\(''Description \\(optional\\): Buy vegetables and fruits''\\)\nprint\\(\\)\nprint\\(''+ Task added successfully! \\(ID: 1\\)''\\)\nprint\\(\\)\n\n# Add second task\ntask2 = manager.add_task\\(''Finish project report'', ''Complete the final draft for submission''\\)\nprint\\(''1. Add Task''\\)\nprint\\(''Title: Finish project report''\\)\nprint\\(''Description \\(optional\\): Complete the final draft for submission''\\)\nprint\\(\\)\nprint\\(''+ Task added successfully! \\(ID: 2\\)''\\)\nprint\\(\\)\n\n# Add third task\ntask3 = manager.add_task\\(''Call mom'', ''Check in and talk about weekend plans''\\)\nprint\\(''1. Add Task''\\)\nprint\\(''Title: Call mom''\\)\nprint\\(''Description \\(optional\\): Check in and talk about weekend plans''\\)\nprint\\(\\)\nprint\\(''+ Task added successfully! \\(ID: 3\\)''\\)\nprint\\(\\)\n\n# View all tasks \\(Option 2\\)\nprint\\(''2. View All Tasks''\\)\nprint\\(\\)\nif manager.get_all_tasks\\(\\):\n    from src.main import display_tasks\n    display_tasks\\(manager.get_all_tasks\\(\\)\\)\nelse:\n    print\\(''No tasks found.''\\)\nprint\\(\\)\n\")",
+      "Bash(py demo_real.py)"
+    ]
+  }
+}
