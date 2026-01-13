@@ -1,0 +1,37 @@
+# Spec-Kit Plus Configuration
+version: "1.0"
+project:
+  name: "Hackathon II - Phase II: Todo Full-Stack Web Application"
+  description: "Full-stack Todo application with Next.js frontend and FastAPI backend"
+  version: "1.0.0"
+  type: "fullstack-web-application"
+
+directories:
+  specs:
+    root: "./specs"
+    overview: "./specs/overview.md"
+    architecture: "./specs/architecture.md"
+    features: "./specs/features"
+    api: "./specs/api"
+    database: "./specs/database"
+    ui: "./specs/ui"
+
+lifecycle:
+  stages:
+    - "specify"
+    - "plan"
+    - "tasks"
+    - "implement"
+
+specifications:
+  required_sections:
+    - "overview"
+    - "architecture"
+    - "features"
+    - "api"
+    - "database"
+    - "ui"
+
+validation:
+  strict: true
+  require_approvals: true
