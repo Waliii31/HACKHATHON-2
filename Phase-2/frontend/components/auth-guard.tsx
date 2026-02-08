@@ -23,8 +23,8 @@ export const AuthGuard = ({ children, fallbackUrl = '/login' }: AuthGuardProps) 
   // Show loading state while checking auth
   if (isLoading || (!user && !isLoading)) {
     return (
-      <div className="flex justify-center items-center min-h-[80vh]">
-        <p>Loading...</p>
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <p className="text-sm text-slate-300">Loading...</p>
       </div>
     );
   }

@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 class UserBase(SQLModel):
     email: str = Field(unique=True, nullable=False, max_length=255)
     name: str = Field(nullable=False, max_length=255)
+    password_hash: str = Field(nullable=False, max_length=255)
 
 
 class User(UserBase, table=True):

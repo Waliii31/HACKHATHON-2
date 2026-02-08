@@ -21,56 +21,60 @@ export const TaskItem = ({ task, onEdit, onDelete, onToggleComplete }: TaskItemP
   const getPriorityClass = (priority: string) => {
     switch (priority) {
       case 'high':
-        return 'bg-red-100 text-red-800';
+        return 'bg-rose-500/20 text-rose-200';
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-amber-500/20 text-amber-200';
       case 'low':
-        return 'bg-green-100 text-green-800';
+        return 'bg-emerald-500/20 text-emerald-200';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-500/20 text-slate-200';
     }
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
-      <div className="flex justify-between items-start">
-        <div className="flex items-start space-x-3">
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-black/20">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex items-start gap-3">
           <button
             onClick={() => onToggleComplete(task.id, task.status === 'active')}
-            className="mt-1 focus:outline-none"
+            className="mt-1 rounded-full border border-white/10 bg-white/5 p-2 text-slate-200 transition hover:bg-white/10 focus:outline-none"
             aria-label={task.status === 'active' ? 'Mark as complete' : 'Mark as active'}
           >
             {task.status === 'active' ? (
-              <Circle className="h-5 w-5 text-gray-400 hover:text-blue-500" />
+              <Circle className="h-5 w-5 text-slate-300" />
             ) : (
-              <CheckCircle className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-emerald-400" />
             )}
           </button>
 
           <div className="flex-1">
-            <h3 className={`text-lg font-medium ${task.status === 'completed' ? 'line-through text-gray-500' : 'text-gray-800'}`}>
+            <h3
+              className={`text-lg font-semibold ${
+                task.status === 'completed' ? 'line-through text-slate-500' : 'text-white'
+              }`}
+            >
               {task.title}
             </h3>
 
             {task.description && (
-              <p className={`mt-1 text-gray-600 ${task.status === 'completed' ? 'line-through' : ''}`}>
+              <p className={`mt-1 text-sm text-slate-300 ${task.status === 'completed' ? 'line-through' : ''}`}>
                 {task.description}
               </p>
             )}
 
-            <div className="mt-2 flex flex-wrap gap-2">
-              <span className={`px-2 py-1 text-xs rounded-full ${getPriorityClass(task.priority)}`}>
+            <div className="mt-3 flex flex-wrap gap-2 text-xs">
+              <span className={`rounded-full px-2.5 py-1 font-medium ${getPriorityClass(task.priority)}`}>
                 {task.priority}
               </span>
 
               {task.due_date && (
-                <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                <span className="rounded-full bg-blue-500/20 px-2.5 py-1 font-medium text-blue-200">
                   Due: {formatDate(task.due_date)}
                 </span>
               )}
 
               {task.status === 'completed' && task.completed_at && (
-                <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                <span className="rounded-full bg-emerald-500/20 px-2.5 py-1 font-medium text-emerald-200">
                   Completed: {formatDate(task.completed_at)}
                 </span>
               )}
@@ -78,30 +82,30 @@ export const TaskItem = ({ task, onEdit, onDelete, onToggleComplete }: TaskItemP
           </div>
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => onEdit(task)}
-            className="p-2 text-gray-500 hover:text-blue-600 focus:outline-none"
+            className="rounded-full border border-white/10 bg-white/5 p-2 text-slate-200 transition hover:bg-white/10 hover:text-white focus:outline-none"
             aria-label="Edit task"
           >
             <Edit3 className="h-4 w-4" />
           </button>
 
           {showConfirmDelete ? (
-            <div className="flex space-x-2">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => {
                   onDelete(task.id);
                   setShowConfirmDelete(false);
                 }}
-                className="p-2 text-red-600 hover:text-red-800 focus:outline-none"
+                className="rounded-full border border-red-500/40 bg-red-500/10 p-2 text-red-200 transition hover:bg-red-500/20 focus:outline-none"
                 aria-label="Confirm delete"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setShowConfirmDelete(false)}
-                className="p-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/10 focus:outline-none"
                 aria-label="Cancel delete"
               >
                 Cancel
@@ -110,7 +114,7 @@ export const TaskItem = ({ task, onEdit, onDelete, onToggleComplete }: TaskItemP
           ) : (
             <button
               onClick={() => setShowConfirmDelete(true)}
-              className="p-2 text-gray-500 hover:text-red-600 focus:outline-none"
+              className="rounded-full border border-white/10 bg-white/5 p-2 text-slate-200 transition hover:bg-white/10 hover:text-red-200 focus:outline-none"
               aria-label="Delete task"
             >
               <Trash2 className="h-4 w-4" />
