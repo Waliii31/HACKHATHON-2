@@ -6,7 +6,7 @@ This is the frontend for the Todo application, built with Next.js and React.
 - **Framework**: Next.js 14 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Authentication**: Better Auth
+- **Authentication**: JWT (FastAPI backend)
 - **API Client**: Axios with JWT integration
 
 ## Features
@@ -34,8 +34,6 @@ This is the frontend for the Todo application, built with Next.js and React.
 Create a `.env.local` file in the frontend directory with the following variables:
 
 ```bash
-NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3001
-NEXT_PUBLIC_BETTER_AUTH_TOKEN=your-better-auth-token
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api/v1
 ```
 

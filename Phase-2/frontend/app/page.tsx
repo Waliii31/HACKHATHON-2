@@ -19,9 +19,9 @@ export default function HomePage() {
   }, [user, isLoading, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh]">
-      <h1 className="text-4xl font-bold text-gray-800 mb-4">Todo App</h1>
-      <p className="text-lg text-gray-600">Loading...</p>
+    <div className="flex min-h-[70vh] flex-col items-center justify-center text-center">
+      <h1 className="text-4xl font-semibold text-white">TodoFlow</h1>
+      <p className="mt-3 text-sm text-slate-400">Preparing your dashboard...</p>
     </div>
   );
 }

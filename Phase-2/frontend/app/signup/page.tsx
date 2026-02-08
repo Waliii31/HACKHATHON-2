@@ -12,7 +12,7 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-  const { signUp } = useAuth(); // Using the Better Auth signUp function
+  const { signUp } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,93 +40,110 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center mb-6">Create an Account</h1>
+    <div className="mx-auto flex min-h-[80vh] max-w-5xl items-center justify-center px-4">
+      <div className="grid w-full grid-cols-1 gap-10 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-indigo-500/10 backdrop-blur-xl md:grid-cols-2">
+        <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-6 shadow-inner">
+          <h2 className="text-xl font-semibold text-white">Create your account</h2>
+          <p className="mt-1 text-sm text-slate-400">Start organizing your days in minutes.</p>
 
-        {error && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Name
-            </label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Your name"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-xs font-medium uppercase tracking-wide text-slate-400">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                placeholder="Your name"
+              />
+            </div>
 
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="your@email.com"
-            />
-          </div>
+            <div>
+              <label htmlFor="email" className="block text-xs font-medium uppercase tracking-wide text-slate-400">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                placeholder="you@domain.com"
+              />
+            </div>
 
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={8}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="••••••••"
-            />
-          </div>
+            <div>
+              <label htmlFor="password" className="block text-xs font-medium uppercase tracking-wide text-slate-400">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
+                className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                placeholder="••••••••"
+              />
+            </div>
 
-          <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-              Confirm Password
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="••••••••"
-            />
-          </div>
+            <div>
+              <label htmlFor="confirmPassword" className="block text-xs font-medium uppercase tracking-wide text-slate-400">
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+                placeholder="••••••••"
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Sign Up
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:from-indigo-400 hover:to-purple-400"
+            >
+              Sign Up
+            </button>
+          </form>
 
-        <div className="mt-4 text-center">
-          <p className="text-sm text-gray-600">
+          <p className="mt-6 text-center text-sm text-slate-400">
             Already have an account?{' '}
-            <Link href="/login" className="text-blue-600 hover:text-blue-800 font-medium">
+            <Link href="/login" className="font-semibold text-indigo-300 hover:text-indigo-200">
               Login
             </Link>
           </p>
+        </div>
+
+        <div className="flex flex-col justify-center space-y-4">
+          <span className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-300">Start fresh</span>
+          <h1 className="text-3xl font-semibold text-white md:text-4xl">Build a calm, modern to-do space.</h1>
+          <p className="text-sm text-slate-300">
+            Keep your day focused with fast capture, clear priorities, and progress tracking.
+          </p>
+          <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 p-4 text-sm text-slate-200">
+            <p className="font-medium text-white">What you get</p>
+            <ul className="mt-2 space-y-1 text-sm text-slate-200">
+              <li>• Clean dashboard with smart filters</li>
+              <li>• Priority tags and due dates</li>
+              <li>• JWT-secured API access</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

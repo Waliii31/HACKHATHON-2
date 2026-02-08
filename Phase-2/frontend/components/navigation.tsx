@@ -15,57 +15,58 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="bg-white shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-blue-600">
-              Todo App
-            </Link>
-            <div className="hidden md:block ml-10">
-              <div className="flex space-x-4">
-                {user && (
-                  <>
-                    <Link
-                      href="/dashboard"
-                      className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                      Dashboard
-                    </Link>
-                  </>
-                )}
-              </div>
+    <nav className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-6">
+          <Link href="/" className="text-lg font-semibold tracking-tight text-white">
+            TodoFlow
+          </Link>
+          {user && (
+            <div className="hidden md:flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">
+              <span className="h-2 w-2 rounded-full bg-emerald-400" />
+              Active Session
             </div>
-          </div>
+          )}
+        </div>
 
-          <div className="flex items-center">
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700 text-sm">Welcome, {user.name}</span>
-                <button
-                  onClick={handleLogout}
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Logout
-                </button>
+        <div className="flex items-center gap-3">
+          {user ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="hidden sm:inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10"
+              >
+                Dashboard
+              </Link>
+              <div className="hidden sm:flex items-center gap-2 text-sm text-slate-300">
+                <span className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-xs font-semibold">
+                  {(user.name || user.email).charAt(0).toUpperCase()}
+                </span>
+                <span>Hi, {user.name || 'there'}!</span>
               </div>
-            ) : (
-              <div className="flex space-x-4">
-                <Link
-                  href="/login"
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/signup"
-                  className="bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
-          </div>
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center rounded-full bg-white text-slate-900 px-4 py-2 text-sm font-semibold transition hover:bg-slate-100"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-white/10"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:from-blue-400 hover:to-indigo-500"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

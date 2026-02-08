@@ -18,11 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-slate-950 text-slate-100 antialiased`}>
         <AuthProvider>
-          <Navigation />
-          <div className="min-h-screen bg-gray-50">
-            {children}
+          <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+            <Navigation />
+            <main className="px-4 pb-16 pt-6 sm:px-6 lg:px-10">
+              {children}
+            </main>
           </div>
         </AuthProvider>
       </body>

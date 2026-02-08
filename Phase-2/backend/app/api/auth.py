@@ -9,7 +9,7 @@ from passlib.context import CryptContext
 
 from app.database.session import get_db_session
 from app.models.user import User
-from app.auth.jwt import create_access_token
+from app.auth.jwt import create_access_token, get_current_user_id
 import logging
 
 router = APIRouter(tags=["auth"])
@@ -33,6 +33,7 @@ class TokenResponse(BaseModel):
     access_token: str
     token_type: str
     user_id: str
+    user: "UserResponse"
 
 
 class UserResponse(BaseModel):
@@ -80,7 +81,8 @@ async def register(
         # Create new user
         new_user = User(
             email=user_data.email,
-            name=user_data.name
+            name=user_data.name,
+            password_hash=hashed_password
         )
 
         try:
@@ -102,7 +104,13 @@ async def register(
         return TokenResponse(
             access_token=access_token,
             token_type="bearer",
-            user_id=str(new_user.id)
+            user_id=str(new_user.id),
+            user=UserResponse(
+                id=new_user.id,
+                email=new_user.email,
+                name=new_user.name,
+                created_at=new_user.created_at.isoformat()
+            )
         )
     except HTTPException:
         # re-raise known HTTP exceptions
@@ -132,10 +140,11 @@ async def login(
             detail="Invalid email or password"
         )
 
-    # For now, we're not storing passwords - using JWT from Better Auth
-    # In a full implementation, you would verify the password here
-    # if not verify_password(credentials.password, user.password_hash):
-    #     raise HTTPException(...)
+    if not verify_password(credentials.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
 
     # Create access token
     access_token = create_access_token(
@@ -145,21 +154,35 @@ async def login(
     return TokenResponse(
         access_token=access_token,
         token_type="bearer",
-        user_id=str(user.id)
+        user_id=str(user.id),
+        user=UserResponse(
+            id=user.id,
+            email=user.email,
+            name=user.name,
+            created_at=user.created_at.isoformat()
+        )
     )
 
 
 @router.get("/auth/me", response_model=UserResponse)
 async def get_current_user(
     db: AsyncSession = Depends(get_db_session),
+    user_id: UUID = Depends(get_current_user_id),
 ):
     """
     Get the current authenticated user's information.
     This endpoint requires a valid JWT token in the Authorization header.
     """
-    # This would be implemented with the actual current user from the token
-    # For now, this is a placeholder
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Not authenticated"
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    return UserResponse(
+        id=user.id,
+        email=user.email,
+        name=user.name,
+        created_at=user.created_at.isoformat()
     )

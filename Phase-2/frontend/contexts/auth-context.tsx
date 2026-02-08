@@ -1,16 +1,10 @@
 "use client";
 
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { authClient } from '@/lib/auth-client';
-
-interface User {
-  id: string;
-  email: string;
-  name?: string | null;
-}
+import { authClient, AuthUser } from '@/lib/auth-client';
 
 interface AuthContextType {
-  user: User | null;
+  user: AuthUser | null;
   isLoading: boolean;
   signIn: (credentials: { email: string; password: string }) => Promise<any>;
   signUp: (userData: { email: string; password: string; name?: string }) => Promise<any>;
@@ -21,44 +15,32 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load session on mount
   useEffect(() => {
-    authClient.getSession()
-      .then((session) => {
-        if (session?.data?.user) {
-          setUser({
-            id: session.data.user.id,
-            email: session.data.user.email,
-            name: session.data.user.name
-          });
+    const loadSession = async () => {
+      try {
+        const storedToken = localStorage.getItem('todo_token');
+        const storedUser = localStorage.getItem('todo_user');
+        if (storedToken && storedUser) {
+          setUser(JSON.parse(storedUser));
         }
-      })
-      .catch(() => {
+      } catch (error) {
         setUser(null);
-      })
-      .finally(() => {
+      } finally {
         setIsLoading(false);
-      });
+      }
+    };
+    loadSession();
   }, []);
 
   const signIn = async (credentials: { email: string; password: string }) => {
     try {
-      const result = await authClient.signIn.email({
-        email: credentials.email,
-        password: credentials.password,
-      });
-
-      if (result?.data?.user) {
-        setUser({
-          id: result.data.user.id,
-          email: result.data.user.email,
-          name: result.data.user.name
-        });
-      }
-
+      const result = await authClient.signIn(credentials);
+      localStorage.setItem('todo_token', result.access_token);
+      localStorage.setItem('todo_user', JSON.stringify(result.user));
+      setUser(result.user);
       return result;
     } catch (err) {
       throw err;
@@ -67,20 +49,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUp = async (userData: { email: string; password: string; name?: string }) => {
     try {
-      const result = await authClient.signUp.email({
-        email: userData.email,
-        password: userData.password,
-        name: userData.name || "",
-      });
-
-      if (result?.data?.user) {
-        setUser({
-          id: result.data.user.id,
-          email: result.data.user.email,
-          name: result.data.user.name
-        });
-      }
-
+      const result = await authClient.signUp(userData);
+      localStorage.setItem('todo_token', result.access_token);
+      localStorage.setItem('todo_user', JSON.stringify(result.user));
+      setUser(result.user);
       return result;
     } catch (err) {
       throw err;
@@ -88,13 +60,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signOut = async () => {
-    await authClient.signOut();
+    localStorage.removeItem('todo_token');
+    localStorage.removeItem('todo_user');
     setUser(null);
   };
 
   const getToken = async () => {
-    const session = await authClient.getSession();
-    return session?.data?.session?.token || session?.data?.session?.id || null;
+    return localStorage.getItem('todo_token');
   };
 
   const value = { user, isLoading, signIn, signUp, signOut, getToken };
