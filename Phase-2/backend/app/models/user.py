@@ -2,8 +2,9 @@ from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime
 from uuid import UUID, uuid4
 import enum
-from typing import Optional, List
-from app.models.task import Task
+from typing import Optional, List, TYPE_CHECKING
+if TYPE_CHECKING:
+    from app.models.task import Task
 
 
 class UserBase(SQLModel):
@@ -19,7 +20,7 @@ class User(UserBase, table=True):
     updated_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
     is_active: bool = Field(default=True, nullable=False)
 
-    # Relationship to tasks
+    # Relationship to tasks (string forward ref to avoid circular import)
     tasks: List["Task"] = Relationship(back_populates="user")
 
     class Config:

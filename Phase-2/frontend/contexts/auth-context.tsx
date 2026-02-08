@@ -1,66 +1,103 @@
-'use client';
+"use client";
 
-import { createContext, useContext, ReactNode } from 'react';
-import { useAuth as useBetterAuth } from 'better-auth/react';
-import { User } from '@/types/user';
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { authClient } from '@/lib/auth-client';
+
+interface User {
+  id: string;
+  email: string;
+  name?: string | null;
+}
 
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  signIn: (provider: string, credentials: any) => Promise<any>;
-  signUp: (userData: any) => Promise<any>;
+  signIn: (credentials: { email: string; password: string }) => Promise<any>;
+  signUp: (userData: { email: string; password: string; name?: string }) => Promise<any>;
   signOut: () => Promise<void>;
-  getToken: () => Promise<string | null>; // Add method to get JWT token
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    session,
-    signIn: betterSignIn,
-    signUp: betterSignUp,
-    signOut: betterSignOut,
-    setSession
-  } = useBetterAuth();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Transform Better Auth session to our User type
-  const currentUser = session?.user
-    ? {
-        id: session.user.id,
-        email: session.user.email,
-        name: session.user.name || session.user.email.split('@')[0],
-        created_at: session.user.createdAt || new Date().toISOString(),
-        updated_at: session.user.updatedAt || new Date().toISOString(),
-        is_active: true,
-      } as User
-    : null;
+  // Load session on mount
+  useEffect(() => {
+    authClient.getSession()
+      .then((session) => {
+        if (session?.data?.user) {
+          setUser({
+            id: session.data.user.id,
+            email: session.data.user.email,
+            name: session.data.user.name
+          });
+        }
+      })
+      .catch(() => {
+        setUser(null);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
-  // Method to get the JWT token from Better Auth
-  const getToken = async (): Promise<string | null> => {
-    // In Better Auth, the token is typically part of the session
-    if (session?.token) {
-      return session.token;
+  const signIn = async (credentials: { email: string; password: string }) => {
+    try {
+      const result = await authClient.signIn.email({
+        email: credentials.email,
+        password: credentials.password,
+      });
+
+      if (result?.data?.user) {
+        setUser({
+          id: result.data.user.id,
+          email: result.data.user.email,
+          name: result.data.user.name
+        });
+      }
+
+      return result;
+    } catch (err) {
+      throw err;
     }
-    return null;
   };
 
-  const value = {
-    user: currentUser,
-    isLoading: session === undefined, // session is undefined while loading
-    signIn: betterSignIn,
-    signUp: betterSignUp,
-    signOut: betterSignOut,
-    getToken,
+  const signUp = async (userData: { email: string; password: string; name?: string }) => {
+    try {
+      const result = await authClient.signUp.email({
+        email: userData.email,
+        password: userData.password,
+        name: userData.name || "",
+      });
+
+      if (result?.data?.user) {
+        setUser({
+          id: result.data.user.id,
+          email: result.data.user.email,
+          name: result.data.user.name
+        });
+      }
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
   };
+
+  const signOut = async () => {
+    await authClient.signOut();
+    setUser(null);
+  };
+
+  const value = { user, isLoading, signIn, signUp, signOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
   return context;
 };

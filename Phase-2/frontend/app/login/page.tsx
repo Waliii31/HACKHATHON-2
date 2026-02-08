@@ -14,21 +14,19 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
 
     try {
-      const result = await signIn('email-password', {
+      await signIn({
         email,
         password,
       });
 
-      if (result?.error) {
-        setError(result.error.message || 'Login failed');
-      } else {
-        router.push('/dashboard');
-        router.refresh();
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
+      // If successful, redirect to dashboard
+      router.push('/dashboard');
+      router.refresh();
+    } catch (err: any) {
+      setError(err?.message || error?.toString() || 'Login failed. Please check your credentials.');
       console.error(err);
     }
   };

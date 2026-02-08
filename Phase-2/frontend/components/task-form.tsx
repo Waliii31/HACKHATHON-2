@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 interface TaskFormProps {
   initialData?: Task;
-  onSubmit: (data: TaskCreateData | TaskUpdateData) => void;
+  onSubmit: (data: TaskCreateData | TaskUpdateData) => void | Promise<void>;
   onCancel: () => void;
   submitLabel: string;
 }

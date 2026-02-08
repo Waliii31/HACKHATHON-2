@@ -1,0 +1,45 @@
+INFO:     Will watch for changes in these directories: ['D:\\HACKHATHON-2\\Phase-2\\backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [28940] using WatchFiles
+INFO:     Started server process [15916]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\api\auth.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15916]
+WARNING:  WatchFiles detected changes in 'app\api\auth.py'. Reloading...
+Process SpawnProcess-2:
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\multiprocessing\process.py", line 313, in _bootstrap
+    self.run()
+    ~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\multiprocessing\process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HACKHATHON-2\Phase-2\backend\venv\Lib\site-packages\uvicorn\_subprocess.py", line 76, in subprocess_started
+    config.configure_logging()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\HACKHATHON-2\Phase-2\backend\venv\Lib\site-packages\uvicorn\config.py", line 370, in configure_logging
+    logging.config.dictConfig(self.log_config)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\logging\config.py", line 935, in dictConfig
+    dictConfigClass(config).configure()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\logging\config.py", line 583, in configure
+    formatters[name] = self.configure_formatter(
+                       ~~~~~~~~~~~~~~~~~~~~~~~~^
+                                        formatters[name])
+                                        ^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\logging\config.py", line 693, in configure_formatter
+    result = self.configure_custom(config)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\logging\config.py", line 487, in configure_custom
+    result = c(**kwargs)
+  File "D:\HACKHATHON-2\Phase-2\backend\venv\Lib\site-packages\uvicorn\logging.py", line 32, in __init__
+    def __init__(
+    
+KeyboardInterrupt
+INFO:     Started server process [12784]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

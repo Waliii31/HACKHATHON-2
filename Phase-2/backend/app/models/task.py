@@ -1,8 +1,9 @@
 from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime
 from uuid import UUID, uuid4
-from typing import Optional
-from app.models.user import User
+from typing import Optional, TYPE_CHECKING
+if TYPE_CHECKING:
+    from app.models.user import User
 import enum
 
 
@@ -34,8 +35,8 @@ class Task(TaskBase, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
     updated_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
-    # Relationship to User
-    user: User = Relationship(back_populates="tasks")
+    # Relationship to User (forward ref to avoid circular import)
+    user: "User" = Relationship(back_populates="tasks")
 
     class Config:
         arbitrary_types_allowed = True

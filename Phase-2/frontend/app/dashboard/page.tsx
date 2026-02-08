@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/auth-context';
-import { Task } from '@/types/task';
+import { Task, TaskCreateData } from '@/types/task';
 import { TaskForm } from '@/components/task-form';
 import { TaskItem } from '@/components/task-item';
 import { TaskApi } from '@/lib/api-client';
@@ -41,7 +41,7 @@ const DashboardContent = () => {
     }
   };
 
-  const handleCreateTask = async (taskData: Omit<Task, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => {
+  const handleCreateTask = async (taskData: TaskCreateData) => {
     if (!user) return;
 
     try {
@@ -182,7 +182,7 @@ const DashboardContent = () => {
           {showForm && (
             <div className="mb-6">
               <TaskForm
-                onSubmit={handleCreateTask}
+                onSubmit={(data) => handleCreateTask(data as TaskCreateData)}
                 onCancel={() => setShowForm(false)}
                 submitLabel="Create Task"
               />

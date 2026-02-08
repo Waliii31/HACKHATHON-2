@@ -16,7 +16,7 @@ export const AuthGuard = ({ children, fallbackUrl = '/login' }: AuthGuardProps) 
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push(fallbackUrl);
+      router.push(fallbackUrl as any);
     }
   }, [user, isLoading, router, fallbackUrl]);
 

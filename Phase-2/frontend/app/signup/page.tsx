@@ -16,6 +16,7 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -23,21 +24,17 @@ export default function SignupPage() {
     }
 
     try {
-      // Call Better Auth signUp function
-      const result = await signUp('email-password', {
+      await signUp({
         email,
         password,
-        name, // Adjust based on Better Auth expectations
+        name,
       });
 
-      if (result?.error) {
-        setError(result.error.message || 'Sign up failed');
-      } else {
-        router.push('/dashboard');
-        router.refresh();
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
+      // If successful, redirect to dashboard
+      router.push('/dashboard');
+      router.refresh();
+    } catch (err: any) {
+      setError(err?.message || err?.toString() || 'Sign up failed. Please try again.');
       console.error(err);
     }
   };
